@@ -6,7 +6,7 @@ import (
 	"github.com/nasjp/btc/ecc"
 )
 
-func TestPractice2_3(t *testing.T) {
+func TestPractice3(t *testing.T) {
 	t.Run("1", func(t *testing.T) {
 		a, err := ecc.NewFieldElement(44, 57)
 		if err != nil {
@@ -112,7 +112,7 @@ func TestPractice2_3(t *testing.T) {
 	})
 }
 
-func TestPractice2_7(t *testing.T) {
+func TestPractice7(t *testing.T) {
 	for _, p := range []int64{7, 11, 17, 31} {
 		nums := make([]int64, 0, p-1)
 		for i := int64(1); i < p; i++ {
@@ -135,7 +135,7 @@ func TestPractice2_7(t *testing.T) {
 	}
 }
 
-func TestPractice2_8(t *testing.T) {
+func TestPractice8(t *testing.T) {
 	t.Run("1", func(t *testing.T) {
 		a, err := ecc.NewFieldElement(3, 31)
 		if err != nil {
