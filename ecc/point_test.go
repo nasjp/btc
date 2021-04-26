@@ -59,33 +59,22 @@ func TestPointOnCurve(t *testing.T) {
 func TestPoint_Add(t *testing.T) {
 	t.Parallel()
 
-	const a, b int64 = 5, 7
+	p := func(t *testing.T, x, y int64) *ecc.Point { return mustPoint(t, x, y, 0, 7, 223) }
 
 	tests := []struct {
-		name     string
 		receiver *ecc.Point
 		other    *ecc.Point
 		want     *ecc.Point
 	}{
-		/*
-			{"Add", &ecc.Point{3, 7, a, b}, &ecc.Point{-1, -1, a, b}, &ecc.Point{2, -5, a, b}},
-			{"Inf_Receiver", &ecc.Point{ecc.Inf, ecc.Inf, a, b}, &ecc.Point{2, 5, a, b}, &ecc.Point{2, 5, a, b}},
-			{"Inf_Other", &ecc.Point{2, 5, a, b}, &ecc.Point{ecc.Inf, ecc.Inf, a, b}, &ecc.Point{2, 5, a, b}},
-			{"Inf_Return", &ecc.Point{2, 5, a, b}, &ecc.Point{2, -5, a, b}, &ecc.Point{ecc.Inf, ecc.Inf, a, b}},
-			{"SamePoint", &ecc.Point{-1, -1, a, b}, &ecc.Point{-1, -1, a, b}, &ecc.Point{18, 77, a, b}},
-		*/
-
-		// {"Add", mustPoint(t, 3, 7, a, b, 223), mustPoint(t, -1, -1, a, b, 223), mustPoint(t, 2, -5, a, b, 223)},
-		// {"Inf_Receiver", mustPoint(t, 0, 0, a, b, 223, true), mustPoint(t, 2, 5, a, b, 223), mustPoint(t, 2, 5, a, b, 223)},
-		// {"Inf_Other", mustPoint(t, 2, 5, a, b, 223), mustPoint(t, 0, 0, a, b, 223, true), mustPoint(t, 2, 5, a, b, 223)},
-		// {"Inf_Return", mustPoint(t, 2, 5, a, b, 223), mustPoint(t, 2, -5, a, b, 223), mustPoint(t, 0, 0, a, b, 223, true)},
-		// {"SamePoint", mustPoint(t, -1, -1, a, b, 223), mustPoint(t, -1, -1, a, b, 223), mustPoint(t, 18, 77, a, b, 223)},
+		{p(t, 170, 142), p(t, 60, 139), p(t, 220, 181)},
+		{p(t, 47, 71), p(t, 17, 56), p(t, 215, 68)},
+		{p(t, 143, 98), p(t, 76, 66), p(t, 47, 71)},
 	}
 
 	for _, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(fmt.Sprintf("(%d,%d)+(%d,%d)", tt.receiver.X.Num, tt.receiver.Y.Num, tt.other.X.Num, tt.other.Y.Num), func(t *testing.T) {
 			t.Parallel()
 
 			got, err := tt.receiver.Add(tt.other)

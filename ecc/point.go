@@ -120,9 +120,8 @@ func (p *Point) Add(other *Point) (*Point, error) {
 
 func (p *Point) add(other *Point, s *FieldElement) (*Point, error) {
 	// x := s^2 - (p.X + other.X)
-	x := s.pow(2).div(p.X).div(other.X)
+	x := s.pow(2).sub(p.X.add(other.X))
 	// y := s * (p.X-x) - p.Y
-	y := s.mul(p.X.div(x)).div(p.Y)
-
+	y := s.mul(p.X.sub(x)).sub(p.Y)
 	return NewPoint(x, y, p.A, p.B)
 }
