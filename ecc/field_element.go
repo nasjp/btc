@@ -125,7 +125,7 @@ func (fe *FieldElement) validate(other *FieldElement) error {
 	return nil
 }
 
-func (fe *FieldElement) times(num int64) *FieldElement {
+func (fe *FieldElement) scalar(num int64) *FieldElement {
 	t := fe
 	for i := int64(2); i <= num; i++ {
 		t = t.add(fe)

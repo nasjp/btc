@@ -111,7 +111,7 @@ func (p *Point) Add(other *Point) (*Point, error) {
 	// p1 == p2
 	if p.Eq(other) {
 		// s = (3*p.X^2 + p.A) / 2*p.Y
-		s := p.X.pow(2).times(3).add(p.A).div(p.Y.times(2))
+		s := p.X.pow(2).scalar(3).add(p.A).div(p.Y.scalar(2))
 		return p.add(other, s)
 	}
 
