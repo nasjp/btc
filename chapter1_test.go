@@ -6,7 +6,7 @@ import (
 	"github.com/nasjp/btc/ecc"
 )
 
-func TestPractice3(t *testing.T) {
+func TestPractice1_3(t *testing.T) {
 	t.Run("1", func(t *testing.T) {
 		a, err := ecc.NewFieldElement(44, 57)
 		if err != nil {

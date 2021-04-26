@@ -16,8 +16,8 @@ func TestFieldElement_Eq(t *testing.T) {
 		other    *ecc.FieldElement
 		want     bool
 	}{
-		{"Eq", &ecc.FieldElement{2, 31}, &ecc.FieldElement{2, 31}, true},
-		{"Not Eq", &ecc.FieldElement{2, 31}, &ecc.FieldElement{15, 31}, false},
+		{"Eq", mustFE(t, 2, 31), mustFE(t, 2, 31), true},
+		{"Not Eq", mustFE(t, 2, 31), mustFE(t, 15, 31), false},
 	}
 
 	for _, tt := range tests {
@@ -26,7 +26,7 @@ func TestFieldElement_Eq(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			if got := tt.receiver.Eq(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime}); got != tt.want {
+			if got := tt.receiver.Eq(mustFE(t, tt.other.Num, tt.other.Prime)); got != tt.want {
 				t.Errorf("FieldElement.Eq() = %v, want %v", got, tt.want)
 			}
 		})
@@ -42,8 +42,8 @@ func TestFieldElement_Ne(t *testing.T) {
 		other    *ecc.FieldElement
 		want     bool
 	}{
-		{"Ne", &ecc.FieldElement{2, 31}, &ecc.FieldElement{2, 31}, false},
-		{"Not Ne(=Eq)", &ecc.FieldElement{2, 31}, &ecc.FieldElement{15, 31}, true},
+		{"Ne", mustFE(t, 2, 31), mustFE(t, 2, 31), false},
+		{"Not Ne(=Eq)", mustFE(t, 2, 31), mustFE(t, 15, 31), true},
 	}
 
 	for _, tt := range tests {
@@ -52,7 +52,7 @@ func TestFieldElement_Ne(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			if got := tt.receiver.Ne(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime}); got != tt.want {
+			if got := tt.receiver.Ne(mustFE(t, tt.other.Num, tt.other.Prime)); got != tt.want {
 				t.Errorf("FieldElement.Eq() = %v, want %v", got, tt.want)
 			}
 		})
@@ -68,8 +68,8 @@ func TestFieldElement_Add(t *testing.T) {
 		other    *ecc.FieldElement
 		want     *ecc.FieldElement
 	}{
-		{"Add", &ecc.FieldElement{2, 31}, &ecc.FieldElement{15, 31}, &ecc.FieldElement{17, 31}},
-		{"WrapAround", &ecc.FieldElement{17, 31}, &ecc.FieldElement{21, 31}, &ecc.FieldElement{7, 31}},
+		{"Add", mustFE(t, 2, 31), mustFE(t, 15, 31), mustFE(t, 17, 31)},
+		{"WrapAround", mustFE(t, 17, 31), mustFE(t, 21, 31), mustFE(t, 7, 31)},
 	}
 
 	for _, tt := range tests {
@@ -78,7 +78,7 @@ func TestFieldElement_Add(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := tt.receiver.Add(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime})
+			got, err := tt.receiver.Add(mustFE(t, tt.other.Num, tt.other.Prime))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -98,8 +98,8 @@ func TestFieldElement_Sub(t *testing.T) {
 		other    *ecc.FieldElement
 		want     *ecc.FieldElement
 	}{
-		{"Sub", &ecc.FieldElement{29, 31}, &ecc.FieldElement{4, 31}, &ecc.FieldElement{25, 31}},
-		{"WrapAround", &ecc.FieldElement{15, 31}, &ecc.FieldElement{30, 31}, &ecc.FieldElement{16, 31}},
+		{"Sub", mustFE(t, 29, 31), mustFE(t, 4, 31), mustFE(t, 25, 31)},
+		{"WrapAround", mustFE(t, 15, 31), mustFE(t, 30, 31), mustFE(t, 16, 31)},
 	}
 
 	for _, tt := range tests {
@@ -108,7 +108,7 @@ func TestFieldElement_Sub(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := tt.receiver.Sub(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime})
+			got, err := tt.receiver.Sub(mustFE(t, tt.other.Num, tt.other.Prime))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -128,7 +128,7 @@ func TestFieldElement_Mul(t *testing.T) {
 		other    *ecc.FieldElement
 		want     *ecc.FieldElement
 	}{
-		{"Mul", &ecc.FieldElement{24, 31}, &ecc.FieldElement{19, 31}, &ecc.FieldElement{22, 31}},
+		{"Mul", mustFE(t, 24, 31), mustFE(t, 19, 31), mustFE(t, 22, 31)},
 	}
 
 	for _, tt := range tests {
@@ -137,7 +137,7 @@ func TestFieldElement_Mul(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := tt.receiver.Mul(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime})
+			got, err := tt.receiver.Mul(mustFE(t, tt.other.Num, tt.other.Prime))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -157,9 +157,9 @@ func TestFieldElement_Pow(t *testing.T) {
 		exponent int64
 		want     *ecc.FieldElement
 	}{
-		{"Pow", &ecc.FieldElement{17, 31}, 3, &ecc.FieldElement{15, 31}},
-		{"Big", &ecc.FieldElement{17, 31}, 24, &ecc.FieldElement{4, 31}},
-		{"Minus", &ecc.FieldElement{17, 31}, -3, &ecc.FieldElement{29, 31}},
+		{"Pow", mustFE(t, 17, 31), 3, mustFE(t, 15, 31)},
+		{"Big", mustFE(t, 17, 31), 24, mustFE(t, 4, 31)},
+		{"Minus", mustFE(t, 17, 31), -3, mustFE(t, 29, 31)},
 	}
 
 	for _, tt := range tests {
@@ -188,7 +188,7 @@ func TestFieldElement_Div(t *testing.T) {
 		other    *ecc.FieldElement
 		want     *ecc.FieldElement
 	}{
-		{"Div", &ecc.FieldElement{3, 31}, &ecc.FieldElement{24, 31}, &ecc.FieldElement{4, 31}},
+		{"Div", mustFE(t, 3, 31), mustFE(t, 24, 31), mustFE(t, 4, 31)},
 	}
 
 	for _, tt := range tests {
@@ -197,7 +197,7 @@ func TestFieldElement_Div(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := tt.receiver.Div(&ecc.FieldElement{Num: tt.other.Num, Prime: tt.other.Prime})
+			got, err := tt.receiver.Div(mustFE(t, tt.other.Num, tt.other.Prime))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -206,4 +206,13 @@ func TestFieldElement_Div(t *testing.T) {
 			}
 		})
 	}
+}
+
+func mustFE(t *testing.T, num, prime int64) *ecc.FieldElement {
+	fe, err := ecc.NewFieldElement(num, prime)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return fe
 }

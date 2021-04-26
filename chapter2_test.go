@@ -1,30 +1,25 @@
 package main_test
 
-import (
-	"testing"
-
-	"github.com/nasjp/btc/ecc"
-)
-
-func TestPractice1(t *testing.T) {
+/*
+func TestPractice2_1(t *testing.T) {
 	a, b := 5.0, 7.0
-	t.Log(onCurve(2, 4, a, b))
+	t.Log(onCurveChapter2(2, 4, a, b))
 
-	t.Log(onCurve(-1, -1, a, b))
+	t.Log(onCurveChapter2(-1, -1, a, b))
 
-	t.Log(onCurve(18, 77, a, b))
+	t.Log(onCurveChapter2(18, 77, a, b))
 
-	t.Log(onCurve(5, 7, a, b))
+	t.Log(onCurveChapter2(5, 7, a, b))
 }
 
-func onCurve(x, y, a, b float64) bool {
+func onCurveChapter2(x, y, a, b float64) bool {
 	if _, err := ecc.NewPoint(x, y, a, b); err != nil {
 		return false
 	}
 	return true
 }
 
-func TestPractice4(t *testing.T) {
+func TestPractice2_4(t *testing.T) {
 	a, b := 5.0, 7.0
 	p1, err := ecc.NewPoint(2, 5, a, b)
 	if err != nil {
@@ -50,3 +45,4 @@ func TestPractice4(t *testing.T) {
 		t.Errorf("want: %s, got: %s", want, got)
 	}
 }
+*/
