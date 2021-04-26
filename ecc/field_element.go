@@ -79,7 +79,12 @@ func (fe *FieldElement) Mul(other *FieldElement) (*FieldElement, error) {
 }
 
 func (fe *FieldElement) Pow(exponent int64) (*FieldElement, error) {
-	num := bigpow(fe.Num, exponent%(fe.Prime-1), fe.Prime)
+	e := exponent % (fe.Prime - 1)
+	if e < 0 {
+		e += fe.Prime - 1
+	}
+
+	num := bigpow(fe.Num, e, fe.Prime)
 	return NewFieldElement(num, fe.Prime)
 }
 

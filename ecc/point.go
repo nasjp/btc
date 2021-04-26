@@ -75,7 +75,7 @@ func (p *Point) Add(other *Point) (*Point, error) {
 
 	// x1 == x2 and y1 != y2
 	if p.X == other.X && p.Y != other.Y {
-		return NewPoint(Inf, Inf, p.A, p.Y)
+		return NewPoint(Inf, Inf, p.A, p.B)
 	}
 
 	// x1 != x2
@@ -86,12 +86,12 @@ func (p *Point) Add(other *Point) (*Point, error) {
 
 	// p1 == p2 and y == 0
 	if p.Eq(other) && p.Y == 0 {
-		return NewPoint(Inf, Inf, p.A, p.Y)
+		return NewPoint(Inf, Inf, p.A, p.B)
 	}
 
 	// p1 == p2
 	if p.Eq(other) {
-		s := (3 * math.Pow(p.X, 2)) / 2 * p.Y
+		s := (3*math.Pow(p.X, 2) + p.A) / 2 * p.Y
 		return p.add(other, s)
 	}
 
